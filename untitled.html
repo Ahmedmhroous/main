@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفسر الأحلام الفاخر - ابن سيرين</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #1a202c; /* Dark Gray-Blue Background */
+            color: #e2e8f0; /* Light Gray Text */
+            overflow-x: hidden; /* Prevent horizontal scroll from marquee */
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background-color: #2d3748; /* Slightly Lighter Dark Background for Container */
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Softer, larger shadow */
+            border: 1px solid #4a5568; /* Subtle border */
+        }
+        .site-title {
+            font-size: 2.8rem; /* Larger title */
+            font-weight: 700;
+            color: #f6e05e; /* Gold-like color */
+            text-align: center;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .input-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            background-color: #4a5568; /* Darker background for input group */
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        .input-field {
+            flex-grow: 1;
+            padding: 0.85rem 1.25rem;
+            border: 1px solid #718096; /* Medium gray border */
+            border-radius: 10px;
+            font-size: 1.1rem;
+            background-color: #2d3748; /* Input background */
+            color: #e2e8f0; /* Input text color */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #f6e05e; /* Gold border on focus */
+            box-shadow: 0 0 0 4px rgba(246, 224, 94, 0.3);
+        }
+        .input-field::placeholder {
+            color: #a0aec0; /* Lighter placeholder text */
+        }
+        .search-button {
+            padding: 0.85rem 1.75rem;
+            background-color: #f6e05e; /* Gold button */
+            color: #1a202c; /* Dark text on gold button */
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .search-button:hover {
+            background-color: #e5c945; /* Darker gold on hover */
+            transform: translateY(-2px);
+        }
+        .search-button:disabled {
+            background-color: #718096;
+            color: #a0aec0;
+            cursor: not-allowed;
+            transform: translateY(0);
+        }
+        .results-area {
+            margin-top: 2.5rem;
+            padding: 2rem;
+            background-color: #4a5568; /* Slightly different dark shade for results */
+            border-radius: 12px;
+            min-height: 120px;
+            border: 1px solid #718096;
+        }
+        .results-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #f6e05e; /* Gold for titles */
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .interpretation-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #cbd5e0; /* Slightly lighter text for readability */
+        }
+        .not-found-text {
+            font-size: 1.15rem;
+            color: #fc8181; /* Softer red for not found */
+            font-style: italic;
+        }
+        .loading-spinner { /* Enhanced spinner */
+            border: 5px solid #4a5568; /* Background for spinner track */
+            border-top: 5px solid #f6e05e; /* Gold spinner */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1.5rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .message-box { /* Unified message box styling */
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem; /* Space below message box */
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .message-box.error {
+            background-color: #c53030; /* Darker red for error */
+            color: #fed7d7; /* Light red text */
+            border: 1px solid #e53e3e;
+        }
+        .message-box.info {
+            background-color: #2b6cb0; /* Darker blue for info */
+            color: #bee3f8; /* Light blue text */
+            border: 1px solid #4299e1;
+        }
+        .info-note {
+            background-color: rgba(45, 55, 72, 0.7); /* Slightly transparent dark */
+            color: #a0aec0;
+            padding: 1.25rem;
+            border: 1px solid #4a5568;
+            border-radius: 10px;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .designer-marquee {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #111827; /* Very dark background for marquee */
+            color: #f6e05e; /* Gold text */
+            padding: 0.75rem 0;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            overflow: hidden; /* Important for marquee effect */
+            white-space: nowrap; /* Keep text on one line */
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+        }
+        .designer-marquee p {
+            display: inline-block;
+            padding-left: 100%; /* Start off-screen */
+            animation: marquee-animation 20s linear infinite;
+        }
+        @keyframes marquee-animation {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-200%); } /* Adjust based on text length if needed */
+        }
+
+        /* Icon styles */
+        .icon-lg { width: 32px; height: 32px; }
+        .icon-md { width: 24px; height: 24px; }
+        .icon-sm { width: 20px; height: 20px; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="site-title">
+            <svg class="icon-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.015 18.739a8.235 8.235 0 0 0 0-13.478A8.235 8.235 0 0 0 12.015 18.74Z" clip-rule="evenodd" />
+              <path d="M11.26 5.123c.59-.042 1.132.207 1.518.644.385.438.603.993.628 1.586a.75.75 0 0 1-1.499.075c-.006-.102-.035-.198-.084-.287a.558.558 0 0 0-.52-.378.56.56 0 0 0-.527.332.558.558 0 0 0-.078.548.75.75 0 1 1-1.359.609c-.16-.363-.252-.75-.252-1.152 0-1.16.94-2.1 2.1-2.1Z" />
+            </svg>
+            مفسر الأحلام الفاخر
+            <svg class="icon-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+            </svg>
+        </h1>
+
+        <div class="input-group">
+            <input type="text" id="keywordInput" class="input-field" placeholder="أدخل كلمة مفتاحية من حلمك (مثال: أسد، بحر)">
+            <button id="searchButton" class="search-button">
+                <svg class="icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                </svg>
+                <span>ابحث</span>
+            </button>
+        </div>
+
+        <div id="messageBoxContainer"></div> <div class="results-area">
+            <h2 class="results-title">
+                <svg class="icon-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.5a.75.75 0 0 0 .5.707A9.735 9.735 0 0 0 6 21a9.707 9.707 0 0 0 5.25-1.533.75.75 0 0 0 0-1.329A8.201 8.201 0 0 1 6 18a8.235 8.235 0 0 1-2.25-.311V5.066A8.235 8.235 0 0 1 6 4.75c1.995 0 3.823.707 5.25 1.885a.75.75 0 0 0 0-1.329Z" />
+                  <path d="M12.75 4.533A9.707 9.707 0 0 1 18 3a9.735 9.735 0 0 1 3.25.555.75.75 0 0 1 .5.707v14.5a.75.75 0 0 1-.5.707A9.735 9.735 0 0 1 18 21a9.707 9.707 0 0 1-5.25-1.533.75.75 0 0 1 0-1.329A8.201 8.201 0 0 0 18 18a8.235 8.235 0 0 0 2.25-.311V5.066A8.235 8.235 0 0 0 18 4.75c-1.995 0-3.823.707-5.25 1.885a.75.75 0 0 1 0-1.329Z" />
+                </svg>
+                التفسير:
+            </h2>
+            <div id="loadingIndicator" class="hidden loading-spinner"></div>
+            <div id="interpretationResult" class="interpretation-text">
+                تم التصميم بواسطة ا/احمد محروص .
+            </div>
+        </div>
+
+        <div class="info-note">
+            <p><strong>ملاحظة هامة:</strong> هذا المفسر يقدم تفسيرات مستوحاة من معجم ابن سيرين العريق وقدرات الذكاء الاصطناعي المتقدمة. التفسيرات هي للاستئناس والتفكر، ولا تغني عن طلب المشورة من أهل العلم والاختصاص الموثوقين.</p>
+            <p>في حال عدم العثور على تفسير مباشر لكلمتك، سيسعى النظام لتقديم تفسير مقارب بالاستعانة بالذكاء الاصطناعي، محاكياً نهج ابن سيرين في التأويل.</p>
+        </div>
+    </div>
+
+    <div class="designer-marquee">
+        <p>تم التصميم والتطوير بحب بواسطة أحمد محروص ✨ رؤى تتحقق في عالم الأحلام</p>
+    </div>
+
+    <script>
+        // --- قاعدة بيانات أولية لتفسيرات ابن سيرين ---
+        const ibnSirinInterpretations = {
+            "أسد": "الأسد في المنام سلطان قاهر جبار، ويدل على المحارب وعلى اللص المختلس والعامل الخائن وصاحب الشرط والعدو الطالب. رؤية الأسد قد تبشر بالنصر على الأعداء أو الخوف من سلطة.",
+            "بحر": "البحر في المنام قد يدل على ملك قوي أو سلطان عادل، أو علم واسع. وقد يدل على الدنيا وأهوالها وتقلباتها. من رأى نفسه في بحر هائج، فقد يواجه فتناً أو صعوبات تتطلب حكمة وصبر.",
+            "طيران": "الطيران في المنام يدل على السفر أو الانتقال من حال إلى حال، أو رفعة في الشأن. فإن كان يطير مستوياً، فهو صلاح في الدين والدنيا. وإن طار إلى السماء ولم يعد، فقد يدل على دنو الأجل أو تغير جذري.",
+            "موت": "الموت في المنام قد يدل على الندم على أمر عظيم أو توبة نصوح. ومن رأى أنه مات ثم عاش، فإنه يتوب من ذنب أو ينجو من كرب. والموت قد يدل أيضاً على سفر بعيد، أو فقر بعد غنى، أو راحة للمهموم.",
+            "ذهب": "الذهب في المنام لا يحمد في التأويل غالباً لكراهة لفظه وصفرة لونه، ويدل على هم ومرض أو ذهاب مال. وقيل إن قطعة الذهب الكبيرة هموم، والدنانير هموم يسيرة. وقد يدل للمرأة على الزينة والفرح.",
+            "فضة": "الفضة في المنام مال مجموع حلال مبارك فيه. وهي خير من الذهب في التأويل، وتدل على الطهارة والصدق والأعمال الصالحة.",
+            "ماء": "الماء في المنام حياة طيبة ورزق وعلم وهداية. وشرب الماء العذب الصافي يدل على صلاح الحال والشفاء من المرض وتحقق الأماني. أما الماء الكدر فيدل على هم ومرض ومشقة.",
+            "نار": "النار في المنام قد تدل على السلطان أو الحرب أو الفتنة أو العذاب. وقد تدل على المنفعة والهدى والرزق إذا كانت لها إضاءة وبدون دخان مؤذ أو لهيب حارق.",
+            "ثعبان": "الثعبان أو الحية في المنام عدو، وقد يكون من الأهل أو الأزواج أو الأولاد، أو جار حسود. وقد يدل على رجل صاحب بدعة أو مال حرام. قوة الثعبان وحجمه يدلان على قوة العدو.",
+            "سمك": "السمك في المنام إذا عرف عدده فهو نساء، وإن لم يعرف عدده فهو مال وغنيمة ورزق هنيء. والسمك الطري المشوي رزق واسع وعاجل. وصيد السمك سعي في الرزق.",
+            "قط": "القط في المنام قد يدل على خادم أو لص من أهل البيت، أو شخص نمام ومخادع. والقطة الأنثى امرأة خداعة أو مشاكل عائلية. عضة القط خيانة أو مرض.",
+            "كلب": "الكلب في المنام رجل سفيه أو عدو ضعيف قليل المروءة. ونباح الكلب كلام قبيح من عدو أو شخص حاسد. وقد يدل الكلب الأليف على صديق وفي.",
+            "حصان": "الحصان أو الفرس في المنام عز وجاه وسلطان ورفعة. وركوب الحصان يدل على نيل مرتبة أو سفر مبارك أو زواج. لون الحصان وهيئته له دلالات إضافية.",
+            "تمر": "التمر في المنام رزق حلال ومال مبارك وعلم نافع. وأكل التمر يدل على قراءة القرآن أو حلاوة الإيمان أو ذرية صالحة.",
+            "خبز": "الخبز في المنام عيش طيب وحياة مستقرة وعلم وإسلام. والخبز النقي الأبيض يدل على الرزق الهنيء والعيش الرغد. رؤية الخبز بكثرة تدل على رخاء.",
+            "سماء": "السماء في المنام قد تدل على الملك أو الرئيس أو العالم أو الأب. وصعود السماء يدل على الرفعة والمنزلة وتحقيق الطموحات. لون السماء وحالها يؤثر في التفسير.",
+            "أرض": "الأرض في المنام قد تدل على الزوجة أو الدنيا أو الأم. وحرث الأرض وزراعتها يدل على العمل والسعي والرزق الحلال والذرية. اتساع الأرض يدل على سعة الرزق.",
+            "شمس": "الشمس في المنام سلطان أعظم أو ملك أو أب أو شخصية ذات نفوذ. وطلوع الشمس مشرقاً يدل على الخير والبركة والعدل. غروبها قد يدل على نهاية مرحلة.",
+            "قمر": "القمر في المنام وزير أو عالم أو ولد صالح أو زوجة جميلة. ورؤية القمر مكتملاً (بدر) تدل على تمام الأمر وكماله ونجاح المساعي. نور القمر هداية وعلم.",
+            "نجوم": "النجوم في المنام أشراف الناس وعلمائهم وقادتهم. وسقوط النجوم قد يدل على موت العلماء أو تغير الأحوال أو كثرة الفتن. النجوم اللامعة بشارة خير."
+        };
+
+        const keywordInput = document.getElementById('keywordInput');
+        const searchButton = document.getElementById('searchButton');
+        const interpretationResult = document.getElementById('interpretationResult');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const messageBoxContainer = document.getElementById('messageBoxContainer');
+
+        searchButton.addEventListener('click', searchInterpretation);
+        keywordInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                searchInterpretation();
+            }
+        });
+
+        function showMessage(text, type = 'error') {
+            // Clear previous messages
+            messageBoxContainer.innerHTML = '';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message-box ${type}`;
+            messageDiv.innerHTML = text; // text can contain HTML for icons if needed
+            
+            messageBoxContainer.appendChild(messageDiv);
+
+            // Auto-hide after 7 seconds for a more luxurious feel (longer display)
+            setTimeout(() => {
+                messageDiv.style.opacity = '0';
+                messageDiv.style.transition = 'opacity 0.5s ease-out';
+                setTimeout(() => { messageDiv.remove(); }, 500);
+            }, 7000);
+        }
+
+        async function searchInterpretation() {
+            const keyword = keywordInput.value.trim();
+            if (!keyword) {
+                showMessage(`
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="icon-sm" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                        </svg>
+                        <span>الرجاء إدخال كلمة مفتاحية للبحث.</span>
+                    </div>`, 'error');
+                interpretationResult.innerHTML = "أدخل كلمة مفتاحية أعلاه للبحث عن تفسيرها في عالم الأحلام.";
+                return;
+            }
+
+            interpretationResult.innerHTML = ""; 
+            loadingIndicator.classList.remove('hidden');
+            searchButton.disabled = true;
+            messageBoxContainer.innerHTML = ''; // Clear previous messages
+
+            let foundInterpretation = findInLocalDataset(keyword);
+
+            if (foundInterpretation) {
+                interpretationResult.innerHTML = `<p class="interpretation-text">${foundInterpretation}</p>`;
+                loadingIndicator.classList.add('hidden');
+                searchButton.disabled = false;
+            } else {
+                try {
+                    const prompt = `أنت مفسر أحلام خبير على نهج ابن سيرين. فسر الحلم الذي يتضمن الكلمة المفتاحية التالية: "${keyword}". قدم تفسيراً باللغة العربية الفصحى، واضحاً ومفصلاً بشكل معتدل، مع الحفاظ على أسلوب ابن سيرين في العمق والبصيرة. إذا كانت الكلمة عامة، حاول ربطها بسياقات متعددة محتملة في الحلم.`;
+                    
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; 
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error("API Error:", errorData);
+                        throw new Error(`فشل الاتصال بخدمة تفسير الأحلام (رمز الحالة: ${response.status}). يرجى المحاولة مجدداً بعد قليل.`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const generatedText = result.candidates[0].content.parts[0].text;
+                        interpretationResult.innerHTML = `<p class="interpretation-text"><strong>تفسير مقترح لـ "${keyword}" (بواسطة الذكاء الاصطناعي على نهج ابن سيرين):</strong><br>${generatedText.replace(/\n/g, '<br>')}</p>`;
+                    } else {
+                        console.error("Unexpected API response structure:", result);
+                        interpretationResult.innerHTML = `<p class="not-found-text">لم نتمكن من إنشاء تفسير لكلمة "${keyword}" في الوقت الحالي. قد تكون الكلمة غير واضحة أو تتطلب سياقاً أوسع.</p>`;
+                    }
+                } catch (error) {
+                    console.error('Error fetching interpretation:', error);
+                    interpretationResult.innerHTML = `<p class="not-found-text">حدث خطأ تقني أثناء محاولة تفسير "${keyword}": ${error.message}. نأسف لذلك، يرجى المحاولة مرة أخرى.</p>`;
+                    showMessage(`
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="icon-sm" aria-hidden="true">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.707-4.293a1 1 0 00-1.414-1.414L10 10.586l-2.293-2.293a1 1 0 00-1.414 1.414L8.586 12l-2.293 2.293a1 1 0 101.414 1.414L10 13.414l2.293 2.293a1 1 0 001.414-1.414L11.414 12l2.293-2.293a1 1 0 00-1.414-1.414L10 10.586z" clip-rule="evenodd" />
+                            </svg>
+                            <span>${error.message}</span>
+                        </div>`, 'error');
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                    searchButton.disabled = false;
+                }
+            }
+        }
+
+        function findInLocalDataset(keyword) {
+            const normalizedKeyword = keyword.toLowerCase().trim();
+            // Try exact match first (case-insensitive)
+            for (const key in ibnSirinInterpretations) {
+                if (key.toLowerCase() === normalizedKeyword) {
+                    return ibnSirinInterpretations[key];
+                }
+            }
+            // Try if keyword is a significant part of a key (more robust than simple includes)
+            // This is still basic; a real large site would use more advanced NLP/search indexing
+            for (const key in ibnSirinInterpretations) {
+                const keyParts = key.toLowerCase().split(/[\s،]+/); // Split by space or comma
+                if (keyParts.includes(normalizedKeyword)) {
+                     return ibnSirinInterpretations[key];
+                }
+            }
+             // Fallback: simple substring check (less accurate but might catch some cases)
+            const foundKey = Object.keys(ibnSirinInterpretations).find(key => key.toLowerCase().includes(normalizedKeyword));
+            if (foundKey) {
+                return ibnSirinInterpretations[foundKey];
+            }
+            return null;
+        }
+
+        // Initial message
+        interpretationResult.innerHTML = "أدخل كلمة مفتاحية أعلاه للبحث عن تفسيرها في عالم الأحلام.";
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفسر الأحلام الفاخر - ابن سيرين</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #1a202c; /* Dark Gray-Blue Background */
+            color: #e2e8f0; /* Light Gray Text */
+            overflow-x: hidden; /* Prevent horizontal scroll from marquee */
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background-color: #2d3748; /* Slightly Lighter Dark Background for Container */
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Softer, larger shadow */
+            border: 1px solid #4a5568; /* Subtle border */
+        }
+        .site-title {
+            font-size: 2.8rem; /* Larger title */
+            font-weight: 700;
+            color: #f6e05e; /* Gold-like color */
+            text-align: center;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .input-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            background-color: #4a5568; /* Darker background for input group */
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        .input-field {
+            flex-grow: 1;
+            padding: 0.85rem 1.25rem;
+            border: 1px solid #718096; /* Medium gray border */
+            border-radius: 10px;
+            font-size: 1.1rem;
+            background-color: #2d3748; /* Input background */
+            color: #e2e8f0; /* Input text color */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #f6e05e; /* Gold border on focus */
+            box-shadow: 0 0 0 4px rgba(246, 224, 94, 0.3);
+        }
+        .input-field::placeholder {
+            color: #a0aec0; /* Lighter placeholder text */
+        }
+        .search-button {
+            padding: 0.85rem 1.75rem;
+            background-color: #f6e05e; /* Gold button */
+            color: #1a202c; /* Dark text on gold button */
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .search-button:hover {
+            background-color: #e5c945; /* Darker gold on hover */
+            transform: translateY(-2px);
+        }
+        .search-button:disabled {
+            background-color: #718096;
+            color: #a0aec0;
+            cursor: not-allowed;
+            transform: translateY(0);
+        }
+        .results-area {
+            margin-top: 2.5rem;
+            padding: 2rem;
+            background-color: #4a5568; /* Slightly different dark shade for results */
+            border-radius: 12px;
+            min-height: 120px;
+            border: 1px solid #718096;
+        }
+        .results-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #f6e05e; /* Gold for titles */
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .interpretation-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #cbd5e0; /* Slightly lighter text for readability */
+        }
+        .not-found-text {
+            font-size: 1.15rem;
+            color: #fc8181; /* Softer red for not found */
+            font-style: italic;
+        }
+        .loading-spinner { /* Enhanced spinner */
+            border: 5px solid #4a5568; /* Background for spinner track */
+            border-top: 5px solid #f6e05e; /* Gold spinner */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1.5rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .message-box { /* Unified message box styling */
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem; /* Space below message box */
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .message-box.error {
+            background-color: #c53030; /* Darker red for error */
+            color: #fed7d7; /* Light red text */
+            border: 1px solid #e53e3e;
+        }
+        .message-box.info {
+            background-color: #2b6cb0; /* Darker blue for info */
+            color: #bee3f8; /* Light blue text */
+            border: 1px solid #4299e1;
+        }
+        .info-note {
+            background-color: rgba(45, 55, 72, 0.7); /* Slightly transparent dark */
+            color: #a0aec0;
+            padding: 1.25rem;
+            border: 1px solid #4a5568;
+            border-radius: 10px;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .designer-marquee {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #111827; /* Very dark background for marquee */
+            color: #f6e05e; /* Gold text */
+            padding: 0.75rem 0;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            overflow: hidden; /* Important for marquee effect */
+            white-space: nowrap; /* Keep text on one line */
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+        }
+        .designer-marquee p {
+            display: inline-block;
+            padding-left: 100%; /* Start off-screen */
+            animation: marquee-animation 20s linear infinite;
+        }
+        @keyframes marquee-animation {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-200%); } /* Adjust based on text length if needed */
+        }
+
+        /* Icon styles */
+        .icon-lg { width: 32px; height: 32px; }
+        .icon-md { width: 24px; height: 24px; }
+        .icon-sm { width: 20px; height: 20px; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="site-title">
+            <svg class="icon-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.015 18.739a8.235 8.235 0 0 0 0-13.478A8.235 8.235 0 0 0 12.015 18.74Z" clip-rule="evenodd" />
+              <path d="M11.26 5.123c.59-.042 1.132.207 1.518.644.385.438.603.993.628 1.586a.75.75 0 0 1-1.499.075c-.006-.102-.035-.198-.084-.287a.558.558 0 0 0-.52-.378.56.56 0 0 0-.527.332.558.558 0 0 0-.078.548.75.75 0 1 1-1.359.609c-.16-.363-.252-.75-.252-1.152 0-1.16.94-2.1 2.1-2.1Z" />
+            </svg>
+            مفسر الأحلام الفاخر
+            <svg class="icon-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+            </svg>
+        </h1>
+
+        <div class="input-group">
+            <input type="text" id="keywordInput" class="input-field" placeholder="أدخل كلمة مفتاحية من حلمك (مثال: أسد، بحر)">
+            <button id="searchButton" class="search-button">
+                <svg class="icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                </svg>
+                <span>ابحث</span>
+            </button>
+        </div>
+
+        <div id="messageBoxContainer"></div> <div class="results-area">
+            <h2 class="results-title">
+                <svg class="icon-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.5a.75.75 0 0 0 .5.707A9.735 9.735 0 0 0 6 21a9.707 9.707 0 0 0 5.25-1.533.75.75 0 0 0 0-1.329A8.201 8.201 0 0 1 6 18a8.235 8.235 0 0 1-2.25-.311V5.066A8.235 8.235 0 0 1 6 4.75c1.995 0 3.823.707 5.25 1.885a.75.75 0 0 0 0-1.329Z" />
+                  <path d="M12.75 4.533A9.707 9.707 0 0 1 18 3a9.735 9.735 0 0 1 3.25.555.75.75 0 0 1 .5.707v14.5a.75.75 0 0 1-.5.707A9.735 9.735 0 0 1 18 21a9.707 9.707 0 0 1-5.25-1.533.75.75 0 0 1 0-1.329A8.201 8.201 0 0 0 18 18a8.235 8.235 0 0 0 2.25-.311V5.066A8.235 8.235 0 0 0 18 4.75c-1.995 0-3.823.707-5.25 1.885a.75.75 0 0 1 0-1.329Z" />
+                </svg>
+                التفسير:
+            </h2>
+            <div id="loadingIndicator" class="hidden loading-spinner"></div>
+            <div id="interpretationResult" class="interpretation-text">
+                أدخل كلمة مفتاحية أعلاه للبحث عن تفسيرها في عالم الأحلام.
+            </div>
+        </div>
+
+        <div class="info-note">
+            <p><strong>ملاحظة هامة:</strong> هذا المفسر يقدم تفسيرات مستوحاة من معجم ابن سيرين العريق وقدرات الذكاء الاصطناعي المتقدمة. التفسيرات هي للاستئناس والتفكر، ولا تغني عن طلب المشورة من أهل العلم والاختصاص الموثوقين.</p>
+            <p>في حال عدم العثور على تفسير مباشر لكلمتك، سيسعى النظام لتقديم تفسير مقارب بالاستعانة بالذكاء الاصطناعي، محاكياً نهج ابن سيرين في التأويل.</p>
+        </div>
+    </div>
+
+    <div class="designer-marquee">
+        <p>تم التصميم والتطوير بحب بواسطة أحمد محروص ✨ رؤى تتحقق في عالم الأحلام</p>
+    </div>
+
+    <script>
+        // --- قاعدة بيانات أولية لتفسيرات ابن سيرين ---
+        const ibnSirinInterpretations = {
+            "أسد": "الأسد في المنام سلطان قاهر جبار، ويدل على المحارب وعلى اللص المختلس والعامل الخائن وصاحب الشرط والعدو الطالب. رؤية الأسد قد تبشر بالنصر على الأعداء أو الخوف من سلطة.",
+            "بحر": "البحر في المنام قد يدل على ملك قوي أو سلطان عادل، أو علم واسع. وقد يدل على الدنيا وأهوالها وتقلباتها. من رأى نفسه في بحر هائج، فقد يواجه فتناً أو صعوبات تتطلب حكمة وصبر.",
+            "طيران": "الطيران في المنام يدل على السفر أو الانتقال من حال إلى حال، أو رفعة في الشأن. فإن كان يطير مستوياً، فهو صلاح في الدين والدنيا. وإن طار إلى السماء ولم يعد، فقد يدل على دنو الأجل أو تغير جذري.",
+            "موت": "الموت في المنام قد يدل على الندم على أمر عظيم أو توبة نصوح. ومن رأى أنه مات ثم عاش، فإنه يتوب من ذنب أو ينجو من كرب. والموت قد يدل أيضاً على سفر بعيد، أو فقر بعد غنى، أو راحة للمهموم.",
+            "ذهب": "الذهب في المنام لا يحمد في التأويل غالباً لكراهة لفظه وصفرة لونه، ويدل على هم ومرض أو ذهاب مال. وقيل إن قطعة الذهب الكبيرة هموم، والدنانير هموم يسيرة. وقد يدل للمرأة على الزينة والفرح.",
+            "فضة": "الفضة في المنام مال مجموع حلال مبارك فيه. وهي خير من الذهب في التأويل، وتدل على الطهارة والصدق والأعمال الصالحة.",
+            "ماء": "الماء في المنام حياة طيبة ورزق وعلم وهداية. وشرب الماء العذب الصافي يدل على صلاح الحال والشفاء من المرض وتحقق الأماني. أما الماء الكدر فيدل على هم ومرض ومشقة.",
+            "نار": "النار في المنام قد تدل على السلطان أو الحرب أو الفتنة أو العذاب. وقد تدل على المنفعة والهدى والرزق إذا كانت لها إضاءة وبدون دخان مؤذ أو لهيب حارق.",
+            "ثعبان": "الثعبان أو الحية في المنام عدو، وقد يكون من الأهل أو الأزواج أو الأولاد، أو جار حسود. وقد يدل على رجل صاحب بدعة أو مال حرام. قوة الثعبان وحجمه يدلان على قوة العدو.",
+            "سمك": "السمك في المنام إذا عرف عدده فهو نساء، وإن لم يعرف عدده فهو مال وغنيمة ورزق هنيء. والسمك الطري المشوي رزق واسع وعاجل. وصيد السمك سعي في الرزق.",
+            "قط": "القط في المنام قد يدل على خادم أو لص من أهل البيت، أو شخص نمام ومخادع. والقطة الأنثى امرأة خداعة أو مشاكل عائلية. عضة القط خيانة أو مرض.",
+            "كلب": "الكلب في المنام رجل سفيه أو عدو ضعيف قليل المروءة. ونباح الكلب كلام قبيح من عدو أو شخص حاسد. وقد يدل الكلب الأليف على صديق وفي.",
+            "حصان": "الحصان أو الفرس في المنام عز وجاه وسلطان ورفعة. وركوب الحصان يدل على نيل مرتبة أو سفر مبارك أو زواج. لون الحصان وهيئته له دلالات إضافية.",
+            "تمر": "التمر في المنام رزق حلال ومال مبارك وعلم نافع. وأكل التمر يدل على قراءة القرآن أو حلاوة الإيمان أو ذرية صالحة.",
+            "خبز": "الخبز في المنام عيش طيب وحياة مستقرة وعلم وإسلام. والخبز النقي الأبيض يدل على الرزق الهنيء والعيش الرغد. رؤية الخبز بكثرة تدل على رخاء.",
+            "سماء": "السماء في المنام قد تدل على الملك أو الرئيس أو العالم أو الأب. وصعود السماء يدل على الرفعة والمنزلة وتحقيق الطموحات. لون السماء وحالها يؤثر في التفسير.",
+            "أرض": "الأرض في المنام قد تدل على الزوجة أو الدنيا أو الأم. وحرث الأرض وزراعتها يدل على العمل والسعي والرزق الحلال والذرية. اتساع الأرض يدل على سعة الرزق.",
+            "شمس": "الشمس في المنام سلطان أعظم أو ملك أو أب أو شخصية ذات نفوذ. وطلوع الشمس مشرقاً يدل على الخير والبركة والعدل. غروبها قد يدل على نهاية مرحلة.",
+            "قمر": "القمر في المنام وزير أو عالم أو ولد صالح أو زوجة جميلة. ورؤية القمر مكتملاً (بدر) تدل على تمام الأمر وكماله ونجاح المساعي. نور القمر هداية وعلم.",
+            "نجوم": "النجوم في المنام أشراف الناس وعلمائهم وقادتهم. وسقوط النجوم قد يدل على موت العلماء أو تغير الأحوال أو كثرة الفتن. النجوم اللامعة بشارة خير."
+        };
+
+        const keywordInput = document.getElementById('keywordInput');
+        const searchButton = document.getElementById('searchButton');
+        const interpretationResult = document.getElementById('interpretationResult');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const messageBoxContainer = document.getElementById('messageBoxContainer');
+
+        searchButton.addEventListener('click', searchInterpretation);
+        keywordInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                searchInterpretation();
+            }
+        });
+
+        function showMessage(text, type = 'error') {
+            // Clear previous messages
+            messageBoxContainer.innerHTML = '';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message-box ${type}`;
+            messageDiv.innerHTML = text; // text can contain HTML for icons if needed
+            
+            messageBoxContainer.appendChild(messageDiv);
+
+            // Auto-hide after 7 seconds for a more luxurious feel (longer display)
+            setTimeout(() => {
+                messageDiv.style.opacity = '0';
+                messageDiv.style.transition = 'opacity 0.5s ease-out';
+                setTimeout(() => { messageDiv.remove(); }, 500);
+            }, 7000);
+        }
+
+        async function searchInterpretation() {
+            const keyword = keywordInput.value.trim();
+            if (!keyword) {
+                showMessage(`
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="icon-sm" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                        </svg>
+                        <span>الرجاء إدخال كلمة مفتاحية للبحث.</span>
+                    </div>`, 'error');
+                interpretationResult.innerHTML = "أدخل كلمة مفتاحية أعلاه للبحث عن تفسيرها في عالم الأحلام.";
+                return;
+            }
+
+            interpretationResult.innerHTML = ""; 
+            loadingIndicator.classList.remove('hidden');
+            searchButton.disabled = true;
+            messageBoxContainer.innerHTML = ''; // Clear previous messages
+
+            let foundInterpretation = findInLocalDataset(keyword);
+
+            if (foundInterpretation) {
+                interpretationResult.innerHTML = `<p class="interpretation-text">${foundInterpretation}</p>`;
+                loadingIndicator.classList.add('hidden');
+                searchButton.disabled = false;
+            } else {
+                try {
+                    const prompt = `أنت مفسر أحلام خبير على نهج ابن سيرين. فسر الحلم الذي يتضمن الكلمة المفتاحية التالية: "${keyword}". قدم تفسيراً باللغة العربية الفصحى، واضحاً ومفصلاً بشكل معتدل، مع الحفاظ على أسلوب ابن سيرين في العمق والبصيرة. إذا كانت الكلمة عامة، حاول ربطها بسياقات متعددة محتملة في الحلم.`;
+                    
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; 
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error("API Error:", errorData);
+                        throw new Error(`فشل الاتصال بخدمة تفسير الأحلام (رمز الحالة: ${response.status}). يرجى المحاولة مجدداً بعد قليل.`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const generatedText = result.candidates[0].content.parts[0].text;
+                        interpretationResult.innerHTML = `<p class="interpretation-text"><strong>تفسير مقترح لـ "${keyword}" (بواسطة الذكاء الاصطناعي على نهج ابن سيرين):</strong><br>${generatedText.replace(/\n/g, '<br>')}</p>`;
+                    } else {
+                        console.error("Unexpected API response structure:", result);
+                        interpretationResult.innerHTML = `<p class="not-found-text">لم نتمكن من إنشاء تفسير لكلمة "${keyword}" في الوقت الحالي. قد تكون الكلمة غير واضحة أو تتطلب سياقاً أوسع.</p>`;
+                    }
+                } catch (error) {
+                    console.error('Error fetching interpretation:', error);
+                    interpretationResult.innerHTML = `<p class="not-found-text">حدث خطأ تقني أثناء محاولة تفسير "${keyword}": ${error.message}. نأسف لذلك، يرجى المحاولة مرة أخرى.</p>`;
+                    showMessage(`
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="icon-sm" aria-hidden="true">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.707-4.293a1 1 0 00-1.414-1.414L10 10.586l-2.293-2.293a1 1 0 00-1.414 1.414L8.586 12l-2.293 2.293a1 1 0 101.414 1.414L10 13.414l2.293 2.293a1 1 0 001.414-1.414L11.414 12l2.293-2.293a1 1 0 00-1.414-1.414L10 10.586z" clip-rule="evenodd" />
+                            </svg>
+                            <span>${error.message}</span>
+                        </div>`, 'error');
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                    searchButton.disabled = false;
+                }
+            }
+        }
+
+        function findInLocalDataset(keyword) {
+            const normalizedKeyword = keyword.toLowerCase().trim();
+            // Try exact match first (case-insensitive)
+            for (const key in ibnSirinInterpretations) {
+                if (key.toLowerCase() === normalizedKeyword) {
+                    return ibnSirinInterpretations[key];
+                }
+            }
+            // Try if keyword is a significant part of a key (more robust than simple includes)
+            // This is still basic; a real large site would use more advanced NLP/search indexing
+            for (const key in ibnSirinInterpretations) {
+                const keyParts = key.toLowerCase().split(/[\s،]+/); // Split by space or comma
+                if (keyParts.includes(normalizedKeyword)) {
+                     return ibnSirinInterpretations[key];
+                }
+            }
+             // Fallback: simple substring check (less accurate but might catch some cases)
+            const foundKey = Object.keys(ibnSirinInterpretations).find(key => key.toLowerCase().includes(normalizedKeyword));
+            if (foundKey) {
+                return ibnSirinInterpretations[foundKey];
+            }
+            return null;
+        }
+
+        // Initial message
+        interpretationResult.innerHTML = "أدخل كلمة مفتاحية أعلاه للبحث عن تفسيرها في عالم الأحلام.";
+    </script>
+</body>
+</html>
